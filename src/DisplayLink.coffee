@@ -1,11 +1,11 @@
 
+emptyFunction = require "emptyFunction"
 assertType = require "assertType"
 
 module.exports =
 
   addListener: (listener) ->
     assertType listener, Function
-    length += 1
     listeners.push listener
     return listener
 
@@ -13,7 +13,6 @@ module.exports =
     assertType listener, Function
     position = listeners.indexOf listener
     if position >= 0
-      length -= 1
       listeners.splice position, 1
       return
 
@@ -29,9 +28,10 @@ tick = ->
   return unless length
 
   while ++index < length
-    listeners[index]()
+    (listeners[index] or emptyFunction)()
 
   index = -1
+  length = listeners.length
   requestAnimationFrame tick
   return
 
