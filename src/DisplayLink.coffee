@@ -21,17 +21,15 @@ module.exports =
 #
 
 index = -1
-length = 0
 listeners = []
 
 tick = ->
-  return unless length
 
-  while ++index < length
-    (listeners[index] or emptyFunction)()
+  if length = listeners.length
+    while ++index < length
+      (listeners[index] or emptyFunction)()
+    index = -1
 
-  index = -1
-  length = listeners.length
   requestAnimationFrame tick
   return
 
